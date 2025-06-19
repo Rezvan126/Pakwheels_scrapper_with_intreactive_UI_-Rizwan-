@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PakWheels Car Scraper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="mb-0">
+                            <i class="fas fa-car"></i>
+                            PakWheels Car Scraper
+                        </h1>
+                        <p class="mb-0">Extract car listing data from PakWheels</p>
+                    </div>
+                    <div class="card-body">
+                        <!-- Configuration Form -->
+                        <form id="scraperForm">
+                            <!-- Basic Configuration -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="text-primary mb-3">
+                                        <i class="fas fa-cog"></i>
+                                        Basic Configuration
+                                    </h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="city" class="form-label">City</label>
+                                    <select class="form-select" id="city">
+                                        <option value="islamabad">Islamabad</option>
+                                        <option value="karachi">Karachi</option>
+                                        <option value="lahore">Lahore</option>
+                                        <option value="rawalpindi">Rawalpindi</option>
+                                        <option value="faisalabad">Faisalabad</option>
+                                        <option value="multan">Multan</option>
+                                        <option value="peshawar">Peshawar</option>
+                                        <option value="quetta">Quetta</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="pages" class="form-label">Number of Pages (Max: 400)</label>
+                                    <input type="number" class="form-control" id="pages" 
+                                           min="1" max="400" value="10">
+                                </div>
+                            </div>
+
+                            <!-- Advanced Filters -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="text-primary mb-3">
+                                        <i class="fas fa-filter"></i>
+                                        Search Filters
+                                    </h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="make" class="form-label">Car Make</label>
+                                    <select class="form-select" id="make">
+                                        <option value="">All Makes</option>
+                                        <option value="toyota">Toyota</option>
+                                        <option value="honda">Honda</option>
+                                        <option value="suzuki">Suzuki</option>
+                                        <option value="hyundai">Hyundai</option>
+                                        <option value="kia">KIA</option>
+                                        <option value="nissan">Nissan</option>
+                                        <option value="bmw">BMW</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                        <option value="daihatsu">Daihatsu</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="transmission" class="form-label">Transmission</label>
+                                    <select class="form-select" id="transmission">
+                                        <option value="">All Types</option>
+                                        <option value="automatic">Automatic</option>
+                                        <option value="manual">Manual</option>
+                                        <option value="cvt">CVT</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="yearFrom" class="form-label">Year From</label>
+                                    <select class="form-select" id="yearFrom">
+                                        <option value="">Any Year</option>
+                                        <option value="2020">2020 & Above</option>
+                                        <option value="2015">2015 & Above</option>
+                                        <option value="2010">2010 & Above</option>
+                                        <option value="2005">2005 & Above</option>
+                                        <option value="2000">2000 & Above</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="priceRange" class="form-label">Price Range</label>
+                                    <select class="form-select" id="priceRange">
+                                        <option value="">Any Price</option>
+                                        <option value="0-500000">Under 5 Lacs</option>
+                                        <option value="500000-1000000">5-10 Lacs</option>
+                                        <option value="1000000-2000000">10-20 Lacs</option>
+                                        <option value="2000000-5000000">20-50 Lacs</option>
+                                        <option value="5000000-">50 Lacs & Above</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Additional Filters -->
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <label for="bodyType" class="form-label">Body Type</label>
+                                    <select class="form-select" id="bodyType">
+                                        <option value="">All Types</option>
+                                        <option value="sedan">Sedan</option>
+                                        <option value="hatchback">Hatchback</option>
+                                        <option value="suv">SUV</option>
+                                        <option value="crossover">Crossover</option>
+                                        <option value="pickup">Pickup</option>
+                                        <option value="coupe">Coupe</option>
+                                        <option value="wagon">Wagon</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="engineCapacity" class="form-label">Engine Capacity</label>
+                                    <select class="form-select" id="engineCapacity">
+                                        <option value="">Any Engine</option>
+                                        <option value="660">660cc</option>
+                                        <option value="1000">1000cc</option>
+                                        <option value="1300">1300cc</option>
+                                        <option value="1500">1500cc</option>
+                                        <option value="1800">1800cc</option>
+                                        <option value="2000">2000cc & Above</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="condition" class="form-label">Condition</label>
+                                    <select class="form-select" id="condition">
+                                        <option value="">Any Condition</option>
+                                        <option value="excellent">Excellent</option>
+                                        <option value="good">Good</option>
+                                        <option value="fair">Fair</option>
+                                        <option value="average">Average</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- URL Preview -->
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <strong><i class="fas fa-link"></i> Generated URL:</strong>
+                                        <br>
+                                        <small id="urlPreview" class="text-muted">https://www.pakwheels.com/used-cars/search/-/ct_islamabad/</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success btn-lg me-2" id="startBtn">
+                                        <i class="fas fa-play"></i>
+                                        Start Scraping
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-lg me-2" id="downloadBtn" disabled>
+                                        <i class="fas fa-download"></i>
+                                        Download CSV
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-lg" id="resetBtn">
+                                        <i class="fas fa-refresh"></i>
+                                        Reset Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Progress Section -->
+                        <div id="progressSection" style="display: none;">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <h5>Scraping Progress</h5>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                             role="progressbar" id="progressBar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col-md-3">
+                                            <div class="stats-card">
+                                                <i class="fas fa-file-alt"></i>
+                                                <h4 id="currentPage">0</h4>
+                                                <p>Current Page</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="stats-card">
+                                                <i class="fas fa-files-o"></i>
+                                                <h4 id="totalPages">0</h4>
+                                                <p>Total Pages</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="stats-card">
+                                                <i class="fas fa-car"></i>
+                                                <h4 id="carsFound">0</h4>
+                                                <p>Cars Found</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="stats-card">
+                                                <i class="fas fa-percentage"></i>
+                                                <h4 id="progressPercent">0%</h4>
+                                                <p>Progress</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info" id="statusMessage">
+                                        Ready to start scraping...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Preview Section -->
+                        <div id="dataPreview" style="display: none;">
+                            <h5>Scraped Data Preview</h5>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Car Model</th>
+                                            <th>Color</th>
+                                            <th>Transmission</th>
+                                            <th>Mileage</th>
+                                            <th>Year</th>
+                                            <th>City</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dataTableBody">
+                                        <!-- Data will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Logs Section -->
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5>Scraping Logs</h5>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" id="refreshLogs">
+                                    <i class="fas fa-refresh"></i>
+                                    Refresh Logs
+                                </button>
+                            </div>
+                            <div class="logs-container">
+                                <pre id="logsContainer">No logs available</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let statusInterval = null;
+
+        // Form submission
+        document.getElementById('scraperForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            startScraping();
+        });
+
+        function buildFilteredURL() {
+            const city = document.getElementById('city').value;
+            const make = document.getElementById('make').value;
+            const transmission = document.getElementById('transmission').value;
+            const yearFrom = document.getElementById('yearFrom').value;
+            const priceRange = document.getElementById('priceRange').value;
+            const bodyType = document.getElementById('bodyType').value;
+            const engineCapacity = document.getElementById('engineCapacity').value;
+            const condition = document.getElementById('condition').value;
+
+            // Build PakWheels search URL with proper query parameters
+            let baseUrl = `https://www.pakwheels.com/used-cars/search/-/`;
+            let urlParts = [];
+            
+            // Add city
+            if (city) {
+                urlParts.push(`ct_${city}`);
+            }
+
+            // Add make
+            if (make) {
+                urlParts.push(`mk_${make}`);
+            }
+
+            // Add transmission
+            if (transmission) {
+                urlParts.push(`transmission_${transmission}`);
+            }
+
+            // Add year range
+            if (yearFrom) {
+                urlParts.push(`model_year_${yearFrom}-2025`);
+            }
+
+            // Add price range (in PKR format)
+            if (priceRange) {
+                const [min, max] = priceRange.split('-');
+                if (max) {
+                    urlParts.push(`price_${min}-${max}`);
+                } else {
+                    urlParts.push(`price_${min}-99999999`);
+                }
+            }
+
+            // Add body type
+            if (bodyType) {
+                urlParts.push(`body_type_${bodyType}`);
+            }
+
+            // Add engine capacity
+            if (engineCapacity) {
+                if (engineCapacity === '2000') {
+                    urlParts.push(`engine_capacity_2000-9999`);
+                } else {
+                    urlParts.push(`engine_capacity_${engineCapacity}-${engineCapacity}`);
+                }
+            }
+
+            // Construct final URL
+            if (urlParts.length > 0) {
+                baseUrl += urlParts.join('/') + '/';
+            }
+
+            return baseUrl;
+        }
+
+        function startScraping() {
+            const url = buildFilteredURL();
+            const pages = document.getElementById('pages').value;
+
+            const data = {
+                url: url,
+                pages: parseInt(pages)
+            };
+
+            fetch('/start_scraping', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showProgressSection();
+                    startStatusPolling();
+                    document.getElementById('startBtn').disabled = true;
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('Error starting scraper: ' + error);
+            });
+        }
+
+        function showProgressSection() {
+            document.getElementById('progressSection').style.display = 'block';
+        }
+
+        function startStatusPolling() {
+            statusInterval = setInterval(updateStatus, 2000);
+        }
+
+        function stopStatusPolling() {
+            if (statusInterval) {
+                clearInterval(statusInterval);
+                statusInterval = null;
+            }
+        }
+
+        function updateStatus() {
+            fetch('/status')
+            .then(response => response.json())
+            .then(status => {
+                document.getElementById('currentPage').textContent = status.current_page;
+                document.getElementById('totalPages').textContent = status.total_pages;
+                document.getElementById('carsFound').textContent = status.cars_found;
+                document.getElementById('progressPercent').textContent = Math.round(status.progress) + '%';
+                document.getElementById('progressBar').style.width = status.progress + '%';
+                document.getElementById('statusMessage').textContent = status.message;
+
+                if (!status.is_running) {
+                    stopStatusPolling();
+                    document.getElementById('startBtn').disabled = false;
+                    if (status.cars_found > 0) {
+                        document.getElementById('downloadBtn').disabled = false;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching status:', error);
+            });
+        }
+
+        // Download CSV
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            window.location.href = '/download';
+        });
+
+        // Reset filters
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            document.getElementById('city').value = 'islamabad';
+            document.getElementById('make').value = '';
+            document.getElementById('transmission').value = '';
+            document.getElementById('yearFrom').value = '';
+            document.getElementById('priceRange').value = '';
+            document.getElementById('bodyType').value = '';
+            document.getElementById('engineCapacity').value = '';
+            document.getElementById('condition').value = '';
+            document.getElementById('pages').value = '10';
+            
+            updateUrlPreview();
+        });
+
+        // URL preview functionality
+        function updateUrlPreview() {
+            const url = buildFilteredURL();
+            document.getElementById('urlPreview').textContent = url;
+        }
+
+        // Update URL preview when filters change
+        document.querySelectorAll('select, input').forEach(element => {
+            element.addEventListener('change', updateUrlPreview);
+        });
+
+        // Refresh logs
+        document.getElementById('refreshLogs').addEventListener('click', function() {
+            refreshLogs();
+        });
+
+        function refreshLogs() {
+            fetch('/logs')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logs) {
+                    document.getElementById('logsContainer').textContent = data.logs.join('');
+                } else {
+                    document.getElementById('logsContainer').textContent = 'Error loading logs: ' + data.error;
+                }
+            })
+            .catch(error => {
+                document.getElementById('logsContainer').textContent = 'Error fetching logs: ' + error;
+            });
+        }
+
+        // Initial setup
+        updateUrlPreview();
+        refreshLogs();
+        
+        // Auto-refresh logs every 10 seconds
+        setInterval(refreshLogs, 10000);
+    </script>
+</body>
+</html>
